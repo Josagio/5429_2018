@@ -7,66 +7,64 @@
 
 package org.usfirst.frc.team5429.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.IterativeRobot; //imports main functions to create an Iterative style robot
 
 
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Timer; 
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser; //imports features to create gui
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;//imports dashboard functions to read information
 
-import java.awt.geom.CubicCurve2D;
+import java.awt.geom.CubicCurve2D; 
 
-import com.ctre.CANTalon;
-
-import edu.wpi.first.wpilibj.IterativeRobot;
-
-
-import edu.wpi.first.wpilibj.Joystick;
-
-
-import edu.wpi.first.wpilibj.Joystick.AxisType;
-
-
-import edu.wpi.first.wpilibj.RobotDrive;
-
-
-import edu.wpi.first.wpilibj.RobotDrive.MotorType;
-
-
-import com.ctre.phoenix.*;
-import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.*;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.CANTalon;//library for using talon SRX or VICTOR SPX
 
 
 
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Joystick;// imports functions to ask for the input of a controller
 
 
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.GyroBase;
-import edu.wpi.first.wpilibj.Ultrasonic;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.SensorBase;
-import edu.wpi.first.wpilibj.GyroBase;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Joystick.AxisType;//speciffically importing axis input for a controller
+
+
+import edu.wpi.first.wpilibj.RobotDrive;// imports functions to use for chasis
+
+
+import edu.wpi.first.wpilibj.RobotDrive.MotorType;//specifically call for defining motor types
+
+
+import com.ctre.phoenix.*;//importing brand new ctre library for talon SRX or Victor SPX
+import com.ctre.phoenix.motorcontrol.*;//specifically calling for functions of controlling motor controllers
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;//calling for the can wiring system for TalonSRX
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;//calling for the can wiring system for VictorSPX
+import com.ctre.phoenix.motorcontrol.can.*;//calling for the can wiring system in generak
+import com.ctre.phoenix.motorcontrol.ControlMode;//importing specific control mode features to allow for percent controlling of motors
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;//importing this library to ask for feedback of the talon
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;//used to check on the status of motor controllers
+
+
+
+import edu.wpi.first.wpilibj.CameraServer;//library used to create a camera stream
+
+
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;//used to read motor encoders
+import edu.wpi.first.wpilibj.DigitalInput;//used to read anyform of basic digital input
+import edu.wpi.first.wpilibj.DriverStation;//used to interact with the driver station software
+import edu.wpi.first.wpilibj.Encoder;//imports another library for using motor controllers
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;//this library allows for vibration feed back in the controller
+import edu.wpi.first.wpilibj.GyroBase;//imports library for basic gyros
+import edu.wpi.first.wpilibj.Ultrasonic;//imports library for basic ultrasonic sensors
+import edu.wpi.first.wpilibj.interfaces.Gyro;//adds more functions for a gyro
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;//importing the features of a specific gyro made by the company Analog
+import edu.wpi.first.wpilibj.AnalogGyro;//imports the company Analogs library for using a gyro
+import edu.wpi.first.wpilibj.AnalogInput;//imports to allow to read basic information of anyform of analog input
+import edu.wpi.first.wpilibj.SensorBase;//imports basic sensor functions
+import edu.wpi.first.networktables.NetworkTable;//used for vision tracking and creates tables to read and write data
+import edu.wpi.first.networktables.NetworkTableEntry;//used for vision tracking and creates tables to read and write data
+import edu.wpi.first.networktables.NetworkTableInstance;//used for vision tracking and creates tables to read and write data
 
 
 /**
@@ -121,11 +119,11 @@ public class Robot extends IterativeRobot {
 	WPI_VictorSPX _intakeRight = new WPI_VictorSPX(8);
 	WPI_TalonSRX _climb = new WPI_TalonSRX(5);
 	
-	RobotDrive _drive = new RobotDrive(_frontLeftMotor, _rearLeftMotor, _frontRightMotor, _rearRightMotor);
-	Joystick _joy = new Joystick(0);
-	Joystick _joy2 = new Joystick(1);
-	//Joystick _xBoxController = new Joystick(0);
-	Joystick _partnerController = new Joystick(2);
+	RobotDrive _drive = new RobotDrive(_frontLeftMotor, _rearLeftMotor, _frontRightMotor, _rearRightMotor);//creates an objectchasis with the location of motors
+	Joystick _joy = new Joystick(0);//creates a controller to call input from
+	Joystick _joy2 = new Joystick(1);//_joy & _joy2 are used if wanting to go tank drive with thrustmaster joystics
+	//Joystick _xBoxController = new Joystick(0);//if wanting to drive robot in arcade drive with an Xbox Controller
+	Joystick _partnerController = new Joystick(2);//used for the second driver
 	CameraServer server = CameraServer.getInstance();
 	
 	//server.setQuality(50);
@@ -134,10 +132,10 @@ public class Robot extends IterativeRobot {
 	/**
 	 * Simple thread to plot the sensor velocity
 	 */
-	PlotThread _plotThread;
+	PlotThread _plotThread;//used to plot info of encoders data
 	
 	//Shovel Knight
-	String Shovel_Knight;
+	String Shovel_Knight;//fail safe it relays information throughout the match on where it is when it comes to running code
 	
 	
 	// Autonomous Variables
@@ -152,6 +150,7 @@ public class Robot extends IterativeRobot {
 	
 	
     public void robotInit() {
+	    //creating a list of buttons to put onto the smart dashboard
     	chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("Switch Auto", SwitchAuto);
@@ -179,9 +178,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto delay", delay);
         SmartDashboard.putString("Shovel Knight:", Shovel_Knight);
         
-    	server.startAutomaticCapture();
+    	server.startAutomaticCapture();//starting camera servers
     	
-    	//Sensor automatic capturing
+    	//Sensor automatic capturing/ setting up
     	gyro.reset();
         gyro.calibrate();
     	
@@ -206,7 +205,7 @@ public class Robot extends IterativeRobot {
 
 		/* fire the plotter */
 		new Thread(_plotThread).start();
-    	
+    	//zeroing out the sensors befor the match
     	_elevator.setSelectedSensorPosition(0, 0, 0);
     	_climb.setSelectedSensorPosition(0, 0, 0);
     }
@@ -222,16 +221,16 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
     	
-    	autoCounter = 0;
-    	autoState = 0;
-    	float Kp = -0.1f;
+    	autoCounter = 0;//used as a timer for auto
+    	autoState = 0;//used for each section of auto to find what state its in
+    	float Kp = -0.1f;//multiplier for sensors including the gyro and vision tracker
     	
     	
-    	autoSelected = (String) chooser.getSelected();
-    	positionSelected = (String) position.getSelected();
-    	delaySelected = (int) delay.getSelected();
+    	autoSelected = (String) chooser.getSelected();//asking for which auto was selected 
+    	positionSelected = (String) position.getSelected();//asking for which position is selected
+    	delaySelected = (int) delay.getSelected();//asking for what delay was selected
     	
-    	Shovel_Knight = "We are aiming for " + autoSelected + "and the robot is placed in " + positionSelected;
+    	Shovel_Knight = "We are aiming for " + autoSelected + "and the robot is placed in " + positionSelected;//relaying information of auto being run
     	
     	
 //		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
@@ -243,10 +242,10 @@ public class Robot extends IterativeRobot {
     }
     
     public void Run_Center_Right_Switch(){
-      	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    	NetworkTableEntry tx = table.getEntry("tx");
-    	NetworkTableEntry ty = table.getEntry("ty");
-    	NetworkTableEntry ta = table.getEntry("ta");
+      	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");//gets info from limelight and plots data
+    	NetworkTableEntry tx = table.getEntry("tx");//error in the x-axis meaning how far off left or right
+    	NetworkTableEntry ty = table.getEntry("ty");//error in y-axis meaning how far off up or down
+    	NetworkTableEntry ta = table.getEntry("ta");//how big the image is capture ta meaning area of object captured
     	double x = tx.getDouble(0);
     	double y = ty.getDouble(0);
     	double area = ta.getDouble(0);
@@ -1313,7 +1312,7 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
+    public void autonomousPeriodic() {//this is where the auto is actually called and the program will run it
     	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
         table.getEntry("ledMode").setNumber(0);
     	NetworkTableEntry tx = table.getEntry("tx");
@@ -1513,11 +1512,13 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+	    //this is run in a loop until the match ends and is the period which players drive
     	/**
     	double left = _joy.getRawAxis(1); // logitech gampad left X, positive is forward
     	double right = _joy2.getRawAxis(1); //logitech gampad right X, positive means turn right
     	_drive.tankDrive(left, -right);//(forward, turn);
     	*/
+	    //reinverting motors for driving
     	_drive.setInvertedMotor(MotorType.kFrontLeft, true);
 	   	_drive.setInvertedMotor(MotorType.kRearLeft, true);
     	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -1530,7 +1531,7 @@ public class Robot extends IterativeRobot {
     	float Kp = -0.1f;
     	table.getEntry("ledMode").setNumber(0);
     	
-    	
+    	//creating a sensor wall with a bunch of feedback to read throughout the match
     	Shovel_Knight = "Teleop has started! Game time:";
     	SmartDashboard.putString("Shovel Knight:", "Teleop has started");
     	SmartDashboard.putNumber("Game Time:" ,(int)DriverStation.getInstance().getMatchTime());
@@ -1548,6 +1549,7 @@ public class Robot extends IterativeRobot {
 
        	double right = _joy2.getRawAxis(1); //logitech gampad right X, positive means turn right
 
+	    //this uses the slider to figure out if the controllers want to be inverted for the match
         if(_joy.getRawAxis(3) > .4 && _joy2.getRawAxis(3) > .4){
         	_drive.tankDrive(left*.70, -right*.70);//(forward, turn);
         }else if(_joy.getRawAxis(3) < .6 && _joy2.getRawAxis(3) < .6){
@@ -1568,7 +1570,7 @@ public class Robot extends IterativeRobot {
     		_elevator.setSelectedSensorPosition(0, 0, 0);
     	}
     	*/
-    	
+    	//partner controller setting with limits to not break the robot
     	if(_partnerController.getRawButton(6) && _elevator.getSelectedSensorPosition(0) <= 17550){
     		//elevator going down
     		//_elevator.set(1);
